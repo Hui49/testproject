@@ -58,23 +58,14 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
 
-  test-and-lint:
-    runs-on: ubuntu-latest
+    - name: Install Yarn
+        run: npm install -g yarn
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: yarn install
 
-      - name: Run tests
-        run: npm test
+    - name: Lint code
+      run: yarn lint
 
-      - name: Run linter
-        run: npm run lint
+    - name: Run tests
+      run: yarn test
