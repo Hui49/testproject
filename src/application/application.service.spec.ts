@@ -5,7 +5,7 @@ import { UpdateApplicationDto } from './dto/update-application.dto';
 import { ApplicationState } from './interface/application.interface';
 import { NotFoundException } from '@nestjs/common';
 
-describe('PdfService', () => {
+describe('ApplicationService', () => {
   let service: ApplicationService;
   const testApplication: Application = {
     id: 'unique-id-here', // Assign a unique ID

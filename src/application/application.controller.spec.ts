@@ -12,7 +12,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UploadApplicationResponseDto } from './dto/upload-application-response.dto';
 
-describe('PdfController', () => {
+describe('ApplicationController', () => {
   let controller: ApplicationController;
   let service: ApplicationService;
 
@@ -77,12 +77,10 @@ describe('PdfController', () => {
     it('should return message and filename when file is valid', async () => {
       // Mock necessary behavior for the test
       const fileMock = createMockFile();
-
-      // Call the method being tested
+      
       const result = await controller.uploadApplication(fileMock);
       const expected = new UploadApplicationResponseDto();
 
-      // Set the properties of the uploadResponse object
       expected.message = 'File uploaded successfully';
       expected.application_content = testApplication;
 
@@ -116,7 +114,6 @@ describe('PdfController', () => {
   describe('getApplicationById', () => {
     it('should return a application by id', async () => {
       const expected: Application = testApplication; // Mocked resume
-      // jest.spyOn(pdfService, 'getApplicationById').mockResolvedValue(resume);
 
       const result = await controller.getApplicationById('123');
 
@@ -127,7 +124,6 @@ describe('PdfController', () => {
   describe('updateApplication', () => {
     it('should update a application by id', async () => {
       const updateDto: UpdateApplicationDto = {}; // Mocked update DTO
-      // jest.spyOn(pdfService, 'updateApplication').mockResolvedValue(updatedResume);
 
       const result = await controller.updateApplication('123', updateDto);
       const expected: Application = testApplication; // Mocked resume
