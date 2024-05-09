@@ -30,7 +30,6 @@ interface ProfessionExperience {
     id: string; 
   }
   
-  //todo : skill
   export interface Application extends ApplicationKey {
     name: string;
     email: string;

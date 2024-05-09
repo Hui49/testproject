@@ -34,21 +34,23 @@ export class ApplicationController {
   ): Promise<UploadApplicationResponseDto> {
     if (!file) throw new BadRequestException('invalid file');
 
-    const filename = await this.applicationService.uploadApplication(file);
+    const result = await this.applicationService.uploadApplication(file);
     const uploadResponse = new UploadApplicationResponseDto();
 
     // Set the properties of the uploadResponse object
     uploadResponse.message = 'File uploaded successfully';
-    uploadResponse.application_content = filename;
+    uploadResponse.application_content = result;
     return uploadResponse;
   }
 
   @Get('all')
+  @Roles(Role.Admin)
   async getAllApplications(): Promise<Application[]> {
     return this.applicationService.getAllApplications();
   }
 
   @Get('/search')
+  @Roles(Role.Admin)
   async searchApplications(
     @Query('fullName') fullName: string,
     @Query('address') address: string,
@@ -66,11 +68,13 @@ export class ApplicationController {
   }
 
   @Get(':id')
+  @Roles(Role.Admin)
   async getApplicationById(@Param('id') id: string): Promise<Application> {
     return this.applicationService.getApplicationById(id);
   }
 
   @Put('/:id')
+  @Roles(Role.Admin)
   async updateApplication(
     @Param('id') id: string,
     @Body() updateDto: UpdateApplicationDto,
@@ -79,6 +83,7 @@ export class ApplicationController {
   }
 
   @Put(':id/state')
+  @Roles(Role.Admin)
   async updateApplicationState(
     @Param('id') id: string,
     @Body() updateStateDto: UpdateStateDto,

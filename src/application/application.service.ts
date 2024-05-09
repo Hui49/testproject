@@ -55,7 +55,7 @@ export class ApplicationService {
       const responseText = await this.queryOpenAI(`${prompt}`);
       const applicationData = JSON.parse(responseText);
       await this.saveApplicationFromJson(applicationData);
-      return JSON.parse(responseText);
+      return applicationData;
     } catch (error) {
       this.logger.error(`Error in upload Application : ${error.message}`);
       throw new Error('Error in upload Application');
