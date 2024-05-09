@@ -40,6 +40,7 @@ export class ApplicationService {
       if (content) {
         return content;
     } else {
+        this.logger.error("Failed to get response content");
         throw new Error('Failed to get response content from OpenAI');
     }
     } catch (error) {
@@ -50,11 +51,14 @@ export class ApplicationService {
 
   async uploadApplication(pdfFile: File): Promise<any> {
     try{
+      this.logger.log('starting to parsing application');
       const pdfData = await PDFParser(pdfFile.buffer);
       const prompt = this.getPrompt(pdfData.text);
       const responseText = await this.queryOpenAI(`${prompt}`);
       const applicationData = JSON.parse(responseText);
+      this.logger.log('starting to upload application');
       await this.saveApplicationFromJson(applicationData);
+      this.logger.log('completed uploading application');
       return applicationData;
     } catch (error) {
       this.logger.error(`Error in upload Application : ${error.message}`);
@@ -112,9 +116,7 @@ export class ApplicationService {
   }
 
   async saveApplicationFromJson(jsonData: any) {
-    // Assuming jsonData contains the relevant fields for the resume
     const { v4: uuidv4 } = require('uuid');
-    // todo: if field is not existed in the jsondata
     const applicationData: Application = {
       id: uuidv4(),
       name: jsonData.name,
@@ -134,6 +136,7 @@ export class ApplicationService {
       const applications = await this.applicationModel.scan().exec();
       return applications;
     } catch (error) {
+      this.logger.error('Error querying all application data:', error);
       throw new Error(
         `Failed to retrieve applications from DynamoDB: ${error.message}`,
       );
@@ -145,7 +148,8 @@ export class ApplicationService {
       const applicationData = await this.applicationModel.get({ id: applicationId });
       return applicationData;
     } catch (error) {
-      console.error('Error querying application data:', error);
+      this.logger.error('Error querying application data:', error);
+      throw error;
     }
   }
 
@@ -168,6 +172,8 @@ export class ApplicationService {
       await this.applicationModel.update(updatedApplication);
       return updatedApplication;
     } catch (error) {
+      this.logger.error(`failed to update: ${error.message}`)
+
       throw new Error(
         `Failed to update application from DynamoDB: ${error.message}`,
       );
@@ -211,6 +217,7 @@ export class ApplicationService {
     }
 
     existingApplication.state = newState;
+    this.logger.log(`start to update application with application id: ${existingApplication.id} `)
     await this.applicationModel.update(existingApplication); // Save the updated state to DynamoDB
     return existingApplication;
   }
