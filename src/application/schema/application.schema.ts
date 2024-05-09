@@ -1,11 +1,11 @@
 import { Schema } from 'dynamoose';
-import { Education } from '../resume.interface';
+import { Education } from '../interface/application.interface';
 
 const Education = new Schema({
-  degree_name : String,
+  degree_name: String,
   university_name: String,
   graduation_year: String,
-}); 
+});
 
 const ProfessionExperiences = new Schema({
   start_time: String,
@@ -13,44 +13,44 @@ const ProfessionExperiences = new Schema({
   job_title: String,
   company: String,
   job_summary: String,
-});  
+});
 
-export const ResumeSchema = new Schema({
-    id: {
+export const ApplicationSchema = new Schema({
+  id: {
     type: String,
     hashKey: true,
   },
   name: {
-    type: String,  
+    type: String,
   },
   email: {
-    type: String
+    type: String,
   },
   mobile: {
-    type: String
+    type: String,
   },
   address: {
-    type: String
+    type: String,
   },
   educations: {
     type: Array,
     schema: [Education],
-    default: []
+    default: [],
   },
   profession_experiences: {
     type: Array,
     schema: [ProfessionExperiences],
-    default: []
+    default: [],
   },
   skills: {
     type: Array,
     schema: [String],
-    default: []
+    default: [],
   },
   state: {
     type: String,
     required: true,
-  }
+  },
 });
 
-export default ResumeSchema;
+export default ApplicationSchema;

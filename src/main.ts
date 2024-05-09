@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dynamoose from 'dynamoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

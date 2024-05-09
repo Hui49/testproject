@@ -26,16 +26,17 @@ interface ProfessionExperience {
   job_summary: string;
 }
 
- export interface ResumeKey {
+ export interface ApplicationKey {
     id: string; 
   }
   
   //todo : skill
-  export interface Resume extends ResumeKey {
+  export interface Application extends ApplicationKey {
     name: string;
     email: string;
     mobile: string;
     address: string;
+    skills: string[];
     educations: Education[];
     profession_experiences: ProfessionExperience[];
     state: ApplicationState;

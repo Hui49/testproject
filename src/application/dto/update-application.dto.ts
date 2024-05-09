@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
-import { Resume } from '../resume.interface';
+import { Application } from '../interface/application.interface';
 
-export class UpdateApplicationDto implements Partial<Resume> {
+export class UpdateApplicationDto implements Partial<Application> {
   @IsOptional()
   @IsString()
   @IsNotEmpty()

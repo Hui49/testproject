@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Role } from 'src/common/role.enum';
+import { Role } from 'src/shared/enum/role.enum';
 
 export interface User {
   userId: number;
@@ -10,17 +10,18 @@ export interface User {
 
 @Injectable()
 export class UsersService {
+  //TODO: user shouldb be in database and with hashed password
   private readonly users: User[] = [
     {
       userId: 1,
       username: 'john',
-      password: 'changeme',
+      password: '1234',
       role: Role.Admin,
     },
     {
       userId: 2,
       username: 'maria',
-      password: 'guess',
+      password: '5678',
       role: Role.User,
     },
   ];
