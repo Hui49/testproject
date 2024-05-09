@@ -1,73 +1,150 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Application Management API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+The Application Management API provides endpoints for managing job applications.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Upload Application
 
-## Description
+Uploads a new application file.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Request
 
-## Installation
+- **URL:** `/application/upload`
+- **Method:** `POST`
+- **Headers:**
+  - `Content-Type: multipart/form-data`
+  - `Authorization: Bearer [Access Token]` (required for admin)
+- **Request Body:**
+  - `file` (file) - The application file to upload.
 
-```bash
-$ npm install
+### Response
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "message": "File uploaded successfully",
+    "application_content": { ... }
+  }
+  ```
+example of application_content 
+```json
+{
+  "message": "File uploaded successfully",
+  "application_content": {
+    "id": "unique-id-here",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "mobile": "123-456-7890",
+    "address": "123 Main Street, City, Country",
+    "skills": ["JavaScript", "Node.js", "React"],
+    "educations": [
+      {
+        "degree_name": "Bachelor of Science",
+        "university_name": "University of Example",
+        "graduation_year": "2022"
+      },
+      {
+        "degree_name": "Master of Engineering",
+        "university_name": "Another University",
+        "graduation_year": "2024"
+      }
+    ],
+    "profession_experiences": [
+      {
+        "start_time": "2020-01-01",
+        "end_time": "2021-12-31",
+        "job_title": "Software Engineer",
+        "company": "Tech Company XYZ",
+        "job_summary": "Worked on web development projects using React and Node.js."
+      },
+      {
+        "start_time": "2022-01-01",
+        "end_time": "2023-12-31",
+        "job_title": "Senior Developer",
+        "company": "Software Solutions Inc.",
+        "job_summary": "Led a team of developers in building enterprise software applications."
+      }
+    ],
+    "state": "New"
+  }
+}
 ```
+### Error Responses
+- **Status Code**: 400 Bad Request
+- **Description**: Invalid file provided.
+##  Get All Applications
+Retrieves all applications.
 
-## Running the app
+### Request
+- **URL:** /application/all
+- **Method:** GET
+- **Headers:**
+- `Authorization: Bearer [Access Token] (required for admin)`
+### Response
+- **Status Code:** 200 OK
+- **Body:** Array of application objects.
+- **Description:** Retrieves all applications.
 
-```bash
-# development
-$ npm run start
+## Search Applications
+Searches for applications based on various criteria.
 
-# watch mode
-$ npm run start:dev
+### Request
+- **URL:** /application/search
+- **Method:** GET
+- **Headers:**
+- `Authorization: Bearer [Access Token] (required for admin)`
+- `Query Parameters:`
+  - **fullName (string, optional)** - Full name of the applicant.
+  - **address (string, optional)** - Address of the applicant.
+  - **phoneNumber (string, optional)** - Phone number of the applicant.
+  - **email (string, optional)** - Email address of the applicant.
+  - **skills (string, optional)** - Skills possessed by the applicant.
+### Response
+- **Status Code:** 200 OK
+- **Body:** Array of application objects.
 
-# production mode
-$ npm run start:prod
-```
 
-## Test
+## Get Application by ID
+Retrieves a specific application by its ID.
 
-```bash
-# unit tests
-$ npm run test
+### Request
+- **URL:** /application/:id
+- **Method:** GET
+- **Headers:**
+- `Authorization: Bearer [Access Token] (required for admin)`
+- **Path Parameters:**
+  id (string) - The ID of the application to retrieve.
+### Response
+- **Status Code:** 200 OK
+- **Body:** The application object with the specified ID.
 
-# e2e tests
-$ npm run test:e2e
+## Update Application
+Updates an existing application.
 
-# test coverage
-$ npm run test:cov
-```
+### Request
+- **URL:** /application/:id
+- **Method:** PUT
+- **Headers:**
+- `Authorization: Bearer [Access Token] (required for admin)`
+- **Path Parameters:**
+  id (string) - The ID of the application to update.
+- **Request Body**: UpdateApplicationDto (refer to DTO definition)
+### Response
+- **Status Code:** 200 OK
+- **Body:** The updated application object.
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Update Application State
+Updates the state of an existing application.
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+### Request
+- **URL:** /application/:id/state
+- **Method:** PUT
+- **Headers:**
+- `Authorization: Bearer [Access Token] (required for admin)`
+- **Path Parameters:**
+  id (string) - The ID of the application to update.
+- **Request Body**: UpdateStateDto (refer to DTO definition)
+### Response
+- **Status Code:** 200 OK
+- **Body:** The updated application object with the new state.
