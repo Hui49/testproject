@@ -12,7 +12,7 @@ jobs:
   analyse:
     permissions:
       security-events: write
-    name: Analyse
+    name: Analyse & Test
     runs-on: ubuntu-latest
 
     steps:
