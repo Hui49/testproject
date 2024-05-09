@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Role } from 'src/shared/enum/role.enum';
+import { Role } from '../shared/enum/role.enum';
 
 export interface User {
   userId: number;
