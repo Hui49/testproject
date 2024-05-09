@@ -2,6 +2,8 @@
 
 The Application Management API provides endpoints for managing job applications.
 
+when strating the application, please set up env variables `OPENAI_ACCESS_TOKEN` `AWS_ACCESS_KEY_ID` `AWS_SECRET_ACCESS_KEY` and `AWS_REGION`
+
 ## Upload Application
 
 Uploads a new application file.
