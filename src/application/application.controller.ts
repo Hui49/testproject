@@ -22,7 +22,7 @@ import { Role } from '../shared/enum/role.enum';
 import { UpdateStateDto } from './dto/update-state.dto';
 import { UploadApplicationResponseDto } from './dto/upload-application-response.dto';
 
-@Controller('media')
+@Controller('application')
 @UseGuards(RolesGuard)
 export class ApplicationController {
   constructor(private applicationService: ApplicationService) {}
